@@ -1,0 +1,18 @@
+$schema: 'https://falak.sh/schema/v1.json'
+version: 1
+units:
+  coolicons:
+    type: app
+    runtime: docker
+    framework: docker
+    port: 3000
+    health_path: /
+    servers: [main-1]
+    # Build on main-1 itself: the image is ~650 MB, so building where it runs skips shipping it from the builder.
+    build:
+      mode: on-server
+      dockerfile: Dockerfile
+    domains: [coolicon.falak.sh]
+environments:
+  production:
+    production: true

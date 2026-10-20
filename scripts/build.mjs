@@ -90,7 +90,16 @@ function add(name, { variant, source, license, svg, title, aliases = [], categor
   e.url ??= url;
   let id = variant, n = 2;
   while (e.variants.some((v) => v.id === id)) id = `${variant}-${n++}`;
-  e.variants.push({ id, source, license, dark, wordmark, w: box[0], h: box[1], svg });
+  e.variants.push({ id, source, license, dark, wordmark, w: box[0], h: box[1], svg: sized(svg, box) });
+}
+// Root <svg> gets a modest intrinsic size (64px tall, wordmarks at most 256px wide) so a bare Markdown/<img> embed
+// doesn't render full-width; width attributes and CSS still override it. viewBox keeps it scalable.
+function sized(svg, [w, h]) {
+  const H = Math.min(64, (256 * h) / w), W = (H * w) / h, r = (x) => +x.toFixed(2);
+  return svg.replace(/<svg\b[^>]*>/i, (tag) => {
+    const t = tag.replace(/\s(width|height)\s*=\s*("[^"]*"|'[^']*')/gi, '');
+    return t.replace(/^<svg/i, `<svg width="${r(W)}" height="${r(H)}"${/viewBox=/i.test(t) ? '' : ` viewBox="0 0 ${w} ${h}"`}`);
+  });
 }
 function viewBox(svg) {
   const vb = svg.match(/viewBox=["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
@@ -102,8 +111,11 @@ function viewBox(svg) {
 // ---------- sources ----------
 function gitSparse(repo, dir, paths) {
   const dest = path.join(CACHE, dir);
-  if (fs.existsSync(dest)) execFileSync('git', ['-C', dest, 'pull', '-q', '--depth', '1'], { stdio: 'inherit' });
-  else {
+  if (fs.existsSync(dest)) {
+    // Shallow clones can't `pull` once upstream moves on; take the new tip as is.
+    execFileSync('git', ['-C', dest, 'fetch', '-q', '--depth', '1', 'origin', 'HEAD'], { stdio: 'inherit' });
+    execFileSync('git', ['-C', dest, 'reset', '-q', '--hard', 'FETCH_HEAD'], { stdio: 'inherit' });
+  } else {
     execFileSync('git', ['clone', '-q', '--depth', '1', '--filter=blob:none', '--sparse', repo, dest], { stdio: 'inherit' });
     execFileSync('git', ['-C', dest, 'sparse-checkout', 'set', ...paths], { stdio: 'inherit' });
   }

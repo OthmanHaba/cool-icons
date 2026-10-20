@@ -48,5 +48,6 @@ Variant ids are `<source>[-wordmark][-dark|-light][-N]`:
 
 - Markdown: `![Docker](https://coolicon.falak.sh/i/docker.svg)`
 - HTML: `<img src="https://coolicon.falak.sh/i/docker.svg" alt="Docker" width="48" height="48">`
+- Size: every SVG has a default size of 64px tall (wordmarks at most 256px wide), so a bare embed stays small. Set `width`/`height` or CSS to change it; SVGs scale cleanly.
 - Inline SVG: fetch the `.svg` and paste it. Every SVG has been checked to contain no scripts or event handlers.
 - Files are cached for a day. Hotlinking is fine; for heavy use, download them.

@@ -23,6 +23,8 @@ for (const i of icons) {
   for (const v of i.variants) {
     const svg = fs.readFileSync(`${D}i/${i.slug}/${v.id}.svg`, 'utf8');
     assert(!/<script|\bon[a-z]+\s*=/i.test(svg), `unsafe svg ${i.slug}/${v.id}`);
+    const [, w, h] = svg.match(/<svg\b[^>]*?\swidth="([\d.]+)"[^>]*?\sheight="([\d.]+)"/i) ?? svg.match(/<svg\b[^>]*?\sheight="([\d.]+)"[^>]*?\swidth="([\d.]+)"/i) ?? [];
+    assert(w <= 256 && h <= 64 && /viewBox=/i.test(svg), `unsized svg ${i.slug}/${v.id}`);
   }
 }
 assert(noPng < icons.length / 100, `${noPng} icons without PNG`);

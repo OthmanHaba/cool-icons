@@ -52,5 +52,5 @@ The site is deployed on [Falak](https://falak.sh) (`falak.yaml`). A push to `mai
 
 ## License
 
-The icons keep their source's license (CC0, MIT, or the brand owner's terms), recorded per variant
+The code is [MIT](LICENSE). The icons keep their source's license (CC0, MIT, or the brand owner's terms), recorded per variant
 in `/i/<slug>.json`. All logos are trademarks of their respective owners: follow each owner's brand guidelines.

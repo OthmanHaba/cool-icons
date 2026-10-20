@@ -1,11 +1,13 @@
 // Pulls every icon source, merges them by slug, writes dist/ (SVG + PNG + JSON index + site).
 // Run: node scripts/build.mjs   (needs git + network; first run clones into .cache/)
 import { execFileSync, spawn } from 'node:child_process';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import zlib from 'node:zlib';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = path.join(ROOT, '.cache');
@@ -226,6 +228,30 @@ async function cncf() {
 }
 
 // ---------- output ----------
+// The page's own files get content-hashed copies under /assets/ (cached forever, see nginx.conf). Public URLs such as
+// /search.json stay as they are for API users; only index.html and app.js are pointed at the hashed copies.
+function fingerprint() {
+  const hashed = (file) => {
+    const buf = fs.readFileSync(path.join(DIST, file));
+    const h = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 10);
+    const out = `assets/${file.replace(/(\.\w+)$/, `.${h}$1`)}`;
+    fs.mkdirSync(path.join(DIST, 'assets'), { recursive: true });
+    fs.writeFileSync(path.join(DIST, out), buf);
+    return `/${out}`;
+  };
+  const edit = (file, fn) => fs.writeFileSync(path.join(DIST, file), fn(fs.readFileSync(path.join(DIST, file), 'utf8')));
+  const search = hashed('search.json');
+  edit('app.js', (s) => s.replace("'/search.json'", `'${search}'`));
+  const app = hashed('app.js'), css = hashed('style.css');
+  edit('index.html', (s) => s.replace('/app.js', app).replace('/style.css', css).replace('/search.json', search));
+}
+// nginx serves these with gzip_static instead of compressing a 1 MB index on every request.
+// ponytail: only the site + index files; /i/ SVGs are tiny and the CDN caches them anyway.
+function precompress() {
+  const files = ['index.html', 'llms.txt', 'icons.json', 'search.json', ...fs.readdirSync(path.join(DIST, 'assets')).map((f) => `assets/${f}`)];
+  for (const f of files) fs.writeFileSync(path.join(DIST, `${f}.gz`), zlib.gzipSync(fs.readFileSync(path.join(DIST, f)), { level: 9 }));
+}
+
 // Default variant: colored, symbol-only, light first.
 const RANK = ['svgl', 'logos', 'devicon', 'skill-icons', 'simple-icons', 'cncf-landscape', 'devicon-plain', 'vscode-icons',
   'material-icon-theme', 'lucide', 'tabler', 'carbon', 'codicon', 'mdi'];
@@ -271,6 +297,8 @@ async function main() {
   }
   fs.writeFileSync(path.join(DIST, 'icons.json'), JSON.stringify(all));
   fs.writeFileSync(path.join(DIST, 'search.json'), JSON.stringify(search));
+  fingerprint();
+  precompress();
   console.log(`${icons.size} icons, ${jobs.length} variants, ${rejected} rejected SVGs (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
 
   if (process.env.SKIP_PNG) return;

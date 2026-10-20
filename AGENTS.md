@@ -34,6 +34,7 @@ docker build -t cool-icons . && docker run -p 8088:3000 cool-icons
 - **Variant ids:** `<source>[-wordmark][-dark|-light]`, plus `-2`, `-3`… for duplicates. The default variant is the lowest `score()` (the source order in `RANK`, with penalties for wordmark, dark and mono).
 - **Safety:** an SVG matching `UNSAFE` (script, foreignObject, `on*=`, `javascript:`) is dropped at ingest. Keep it that way: SVGs are offered as inline snippets.
 - **Output:** `dist/i/<slug>/<variant>.svg` and `dist/i/<slug>/<variant>/<size>.png`. The default-variant shortcuts (`i/<slug>.svg`, `i/<slug>.png`, `i/<slug>/<size>.png`) are **relative symlinks**, so keep them working in Docker COPY and nginx. Also `i/<slug>.json`, `icons.json`, and `search.json` (compact arrays read by `app.js`).
+- **Caching:** `fingerprint()` writes content-hashed copies of `app.js`, `style.css` and `search.json` to `dist/assets/` (cached 1 year, `immutable`) and points `index.html`/`app.js` at them; `precompress()` writes `.gz` files for nginx `gzip_static`. Cache times live in `nginx.conf` (`s-maxage` is the Cloudflare edge TTL). Reference new site files from `index.html` so they get hashed too.
 - **PNGs:** resvg runs in child processes, one per CPU. A few SVGs make resvg **panic**, which aborts the process with SIGABRT (exit code `null`, not `!= 0`). The child writes its progress to a file before each job, and the parent restarts it past the bad file. System fonts stay off: loading them made the build 50x slower.
 
 ## Deploy (Falak)

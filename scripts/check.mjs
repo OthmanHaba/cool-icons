@@ -12,6 +12,9 @@ for (const s of ['docker', 'kubernetes', 'nodejs', 'aws', 'react', 'postgresql',
   assert(by[s], `missing ${s}`);
   assert(new Set(by[s].variants.map((v) => v.source)).size >= 3, `${s} not merged across sources`);
 }
+// Generic glyphs exist and don't steal a brand's default variant.
+for (const s of ['server', 'loadbalancer', 'terminal', 'database', 'router', 'firewall']) assert(by[s], `missing ${s}`);
+assert(by.docker.variants[0].source !== 'mdi' && by.python.variants[0].source !== 'tabler', 'glyph took a brand default');
 assert(!by.nodedotjs && !by.amazonwebservices, 'alias not applied');
 // Default-variant shortcuts resolve, every variant has its SVG and (unless SKIP_PNG) its PNGs.
 // A handful of SVGs crash or fail resvg; those have no PNG, but it must stay rare.

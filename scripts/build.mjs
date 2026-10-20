@@ -172,6 +172,17 @@ function logos() {
   });
 }
 
+// Glyph sets: generic dev/infra icons (server, load balancer, terminal, database…) drawn in currentColor, no background.
+// "brand-x"/"logo-x"/"language-x" are brands and merge into x; "-filled"/"-outline" are variants of the same icon.
+function glyphs(set, variant = set) {
+  iconify(set, {
+    variantOf: (n) => {
+      const m = n.replace(/^(brand|logo|language)-/, '').match(/^(.+?)(?:-(filled|outline))?$/);
+      return { name: m[1], variant: m[2] ? `${variant}-${m[2]}` : variant, categories: ['glyph'] };
+    },
+  });
+}
+
 function vscode() {
   iconify('vscode-icons', {
     variantOf: (n) => {
@@ -183,7 +194,7 @@ function vscode() {
 
 async function svgl() {
   const dir = gitSparse('https://github.com/pheralb/svgl', 'svgl', ['static/library']);
-  const list = await (await fetch('https://api.svgl.app')).json();
+  const list = await (await fetch('https://api.svgl.app', { signal: AbortSignal.timeout(60_000) })).json();
   const read = (u) => { const f = path.join(dir, 'static/library', path.basename(new URL(u).pathname)); return fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : null; };
   for (const i of list) {
     const meta = { title: i.title, categories: [i.category], url: i.url, source: 'svgl', license: 'trademark of owner (via svgl)' };
@@ -216,7 +227,8 @@ async function cncf() {
 
 // ---------- output ----------
 // Default variant: colored, symbol-only, light first.
-const RANK = ['svgl', 'logos', 'devicon', 'skill-icons', 'simple-icons', 'cncf-landscape', 'devicon-plain', 'vscode-icons'];
+const RANK = ['svgl', 'logos', 'devicon', 'skill-icons', 'simple-icons', 'cncf-landscape', 'devicon-plain', 'vscode-icons',
+  'material-icon-theme', 'lucide', 'tabler', 'carbon', 'codicon', 'mdi'];
 const score = (v) => RANK.indexOf(v.source) + (v.wordmark ? 20 : 0) + (v.dark ? 10 : 0) + (v.id === 'simple-icons-mono' ? 5 : 0);
 
 async function main() {
@@ -228,6 +240,9 @@ async function main() {
   iconify('devicon-plain', { variantOf: suffixed('devicon-plain', ['wordmark']) });
   iconify('skill-icons', { variantOf: suffixed('skill-icons', ['dark', 'light']) });
   vscode();
+  // Language/tool file icons (colored); folder-* icons are skipped as noise.
+  iconify('material-icon-theme', { variantOf: (n) => !n.startsWith('folder') && suffixed('material', ['light'])(n) });
+  for (const set of ['lucide', 'tabler', 'carbon', 'codicon', 'mdi']) glyphs(set);
   await svgl();
   await cncf();
 

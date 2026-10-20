@@ -12,9 +12,11 @@ Every developer tool, infrastructure provider and open-source project logo, at o
   <img src="https://coolicon.falak.sh/i/react.svg" alt="React" height="40">
 </p>
 
-About 7,600 icons and 16,000 variants, merged from [Simple Icons](https://simpleicons.org), [gilbarbara/logos](https://github.com/gilbarbara/logos),
+About 20,000 icons and 36,000 variants, merged from [Simple Icons](https://simpleicons.org), [gilbarbara/logos](https://github.com/gilbarbara/logos),
 [Devicon](https://devicon.dev), [skill-icons](https://github.com/tandpfun/skill-icons), [vscode-icons](https://github.com/vscode-icons/vscode-icons),
-[svgl](https://svgl.app) and the [CNCF Landscape](https://landscape.cncf.io). Each icon comes as SVG and as PNG in six sizes.
+[Material Icon Theme](https://github.com/material-extensions/vscode-material-icon-theme), [svgl](https://svgl.app) and the [CNCF Landscape](https://landscape.cncf.io),
+plus generic dev/infra glyphs (server, load balancer, terminal, database…) with no background from [Lucide](https://lucide.dev), [Tabler](https://tabler.io/icons),
+[Carbon](https://carbondesignsystem.com), [Codicons](https://github.com/microsoft/vscode-codicons) and [Material Design Icons](https://pictogrammers.com). Each icon comes as SVG and as PNG in six sizes.
 
 ## Use
 

@@ -2,7 +2,7 @@
 
 > Every developer, infrastructure and open-source project logo at a stable URL, as SVG or PNG. Static, no API key, CORS open. Base URL: https://coolicon.falak.sh
 
-About 7,600 icons and 16,000 variants merged from Simple Icons, gilbarbara/logos, Devicon, skill-icons, vscode-icons, svgl and the CNCF Landscape. Logos are trademarks of their owners.
+About 20,000 icons and 36,000 variants merged from Simple Icons, gilbarbara/logos, Devicon, skill-icons, vscode-icons, Material Icon Theme, svgl and the CNCF Landscape, plus generic dev/infra glyphs from Lucide, Tabler, Carbon, Codicons and Material Design Icons. Logos are trademarks of their owners.
 
 ## Get an icon
 
@@ -19,7 +19,8 @@ An unknown slug or variant returns 404. Other sizes, colors or query parameters 
 ## Slugs
 
 A slug is the lowercase name with only `a-z0-9`: `.` becomes `dot`, `+` becomes `plus`, `#` becomes `sharp`, `&` becomes `and`, everything else is removed, and a trailing `.js` becomes `js`.
-Examples: `docker`, `kubernetes`, `nodejs`, `nextjs`, `postgresql`, `aws`, `googlecloud`, `azure`, `go`, `cplusplus`, `csharp`, `dotnet`, `githubactions`, `visualstudiocode`, `awslambda`.
+Generic examples: `server`, `loadbalancer`, `loadbalancerapplication`, `terminal`, `database`, `router`, `firewall`, `cpu`, `cloud`, `gitbranch`.
+Brand examples: `docker`, `kubernetes`, `nodejs`, `nextjs`, `postgresql`, `aws`, `googlecloud`, `azure`, `go`, `cplusplus`, `csharp`, `dotnet`, `githubactions`, `visualstudiocode`, `awslambda`.
 
 Common short names are aliased to one slug (`k8s` → `kubernetes`, `postgres` → `postgresql`, `golang` → `go`, `node` → `nodejs`). Aliases are not URLs: always use the slug.
 
@@ -40,7 +41,8 @@ Variant ids are `<source>[-wordmark][-dark|-light][-N]`:
 - `devicon`, `devicon-wordmark`, `devicon-plain`, `devicon-plain-wordmark`
 - `skill-icons`, `skill-icons-light`, `skill-icons-dark`
 - `simple-icons` (brand color), `simple-icons-mono` (uses `currentColor`, so it takes on the surrounding text color when inlined)
-- `cncf`, `vscode`, `vscode-light`
+- `cncf`, `vscode`, `vscode-light`, `material`, `material-light` (language/tool file icons)
+- Generic glyphs, monochrome in `currentColor` with no background (servers, load balancers, terminals, databases, routers, firewalls, CPUs, git…): `lucide`, `tabler`, `tabler-filled`, `carbon`, `carbon-filled`, `codicon`, `mdi`, `mdi-outline`. Icons from these sets have the category `glyph`.
 
 `-wordmark` means the logo includes the name, `-dark` is for dark backgrounds, and `-N` (`-2`, …) means a duplicate from the same source. Not every icon has every variant: read `/i/<slug>.json` for the exact list.
 

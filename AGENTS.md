@@ -29,7 +29,7 @@ docker build -t cool-icons . && docker run -p 8088:3000 cool-icons
 
 ## How the build works
 
-- **Sources:** npm packages (`simple-icons`, `@iconify-json/{logos,devicon,devicon-plain,skill-icons,vscode-icons}`) and sparse git clones (svgl `static/library` plus `api.svgl.app` metadata; `cncf/landscape` `hosted_logos` plus `landscape.yml`). There are no cloud-provider architecture packs (AWS, Azure, GCP), on purpose: their licenses don't allow redistribution.
+- **Sources:** npm packages (`simple-icons`, `@iconify-json/{logos,devicon,devicon-plain,skill-icons,vscode-icons,material-icon-theme}`, and the glyph sets `@iconify-json/{lucide,tabler,carbon,codicon,mdi}` via `glyphs()`) and sparse git clones (svgl `static/library` plus `api.svgl.app` metadata; `cncf/landscape` `hosted_logos` plus `landscape.yml`). There are no cloud-provider architecture packs (AWS, Azure, GCP), on purpose: their licenses don't allow redistribution.
 - **Merge:** `keyOf(name)` gives the slug. Lowercase, `.`→`dot`, `+`→`plus`, `#`→`sharp`, `&`→`and`, strip non-alnum, `dotjs$`→`js`, then the `ALIAS` map. When the same product shows up under two slugs, add an `ALIAS` entry and don't touch `keyOf`. `site/app.js` has a copy of `keyOf` for search; keep the two in sync.
 - **Variant ids:** `<source>[-wordmark][-dark|-light]`, plus `-2`, `-3`… for duplicates. The default variant is the lowest `score()` (the source order in `RANK`, with penalties for wordmark, dark and mono).
 - **Safety:** an SVG matching `UNSAFE` (script, foreignObject, `on*=`, `javascript:`) is dropped at ingest. Keep it that way: SVGs are offered as inline snippets.

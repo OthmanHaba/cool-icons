@@ -1,0 +1,52 @@
+# Cool Icons
+
+> Every developer, infrastructure and open-source project logo at a stable URL, as SVG or PNG. Static, no API key, CORS open. Base URL: https://coolicon.falak.sh
+
+About 7,600 icons and 16,000 variants merged from Simple Icons, gilbarbara/logos, Devicon, skill-icons, vscode-icons, svgl and the CNCF Landscape. Logos are trademarks of their owners.
+
+## Get an icon
+
+- `https://coolicon.falak.sh/i/<slug>.svg`: default variant, SVG
+- `https://coolicon.falak.sh/i/<slug>.png`: default variant, PNG 128px
+- `https://coolicon.falak.sh/i/<slug>/<size>.png`: default variant, PNG, size is one of 16, 32, 64, 128, 256, 512
+- `https://coolicon.falak.sh/i/<slug>/<variant>.svg`: a specific variant
+- `https://coolicon.falak.sh/i/<slug>/<variant>/<size>.png`: a specific variant as PNG
+- `https://coolicon.falak.sh/i/<slug>.json`: metadata: name, aliases, categories, description, website, every variant with source and license
+- `https://coolicon.falak.sh/icon/<slug>`: human page with previews and copy snippets
+
+An unknown slug or variant returns 404. Other sizes, colors or query parameters are not supported.
+
+## Slugs
+
+A slug is the lowercase name with only `a-z0-9`: `.` becomes `dot`, `+` becomes `plus`, `#` becomes `sharp`, `&` becomes `and`, everything else is removed, and a trailing `.js` becomes `js`.
+Examples: `docker`, `kubernetes`, `nodejs`, `nextjs`, `postgresql`, `aws`, `googlecloud`, `azure`, `go`, `cplusplus`, `csharp`, `dotnet`, `githubactions`, `visualstudiocode`, `awslambda`.
+
+Common short names are aliased to one slug (`k8s` → `kubernetes`, `postgres` → `postgresql`, `golang` → `go`, `node` → `nodejs`). Aliases are not URLs: always use the slug.
+
+Don't guess when unsure. Look the name up in the search index, or request `/i/<slug>.json` and check for 404.
+
+## Find a slug
+
+- `https://coolicon.falak.sh/search.json`: compact index, an array of `[slug, name, aliases, categories, defaultVariant, variantCount]` (aliases and categories are space-joined strings). Match names and aliases case-insensitively. When several match, prefer the higher `variantCount`.
+- `https://coolicon.falak.sh/icons.json`: everything at once (about 3 MB): the same objects as `/i/<slug>.json`.
+- Humans: `https://coolicon.falak.sh/?q=<term>`
+
+## Variants
+
+The default variant is colored and symbol-only, for light backgrounds. It is chosen in this order: svgl, logos, devicon, skill-icons, simple-icons, cncf, devicon-plain, vscode.
+Variant ids are `<source>[-wordmark][-dark|-light][-N]`:
+- `svgl`, `svgl-dark`, `svgl-wordmark`, `svgl-wordmark-dark`
+- `logos`, `logos-dark`, `logos-wordmark`, `logos-wordmark-dark`
+- `devicon`, `devicon-wordmark`, `devicon-plain`, `devicon-plain-wordmark`
+- `skill-icons`, `skill-icons-light`, `skill-icons-dark`
+- `simple-icons` (brand color), `simple-icons-mono` (uses `currentColor`, so it takes on the surrounding text color when inlined)
+- `cncf`, `vscode`, `vscode-light`
+
+`-wordmark` means the logo includes the name, `-dark` is for dark backgrounds, and `-N` (`-2`, …) means a duplicate from the same source. Not every icon has every variant: read `/i/<slug>.json` for the exact list.
+
+## Embedding
+
+- Markdown: `![Docker](https://coolicon.falak.sh/i/docker.svg)`
+- HTML: `<img src="https://coolicon.falak.sh/i/docker.svg" alt="Docker" width="48" height="48">`
+- Inline SVG: fetch the `.svg` and paste it. Every SVG has been checked to contain no scripts or event handlers.
+- Files are cached for a day. Hotlinking is fine; for heavy use, download them.

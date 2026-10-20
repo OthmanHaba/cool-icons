@@ -3,12 +3,14 @@
 Every developer tool, infrastructure provider and open-source project logo, at one URL.
 **https://coolicon.falak.sh**
 
-![Docker](https://coolicon.falak.sh/i/docker.svg)
-![Kubernetes](https://coolicon.falak.sh/i/kubernetes.svg)
-![PostgreSQL](https://coolicon.falak.sh/i/postgresql.svg)
-![Node.js](https://coolicon.falak.sh/i/nodejs.svg)
-![AWS](https://coolicon.falak.sh/i/aws.svg)
-![React](https://coolicon.falak.sh/i/react.svg)
+<p>
+  <img src="https://coolicon.falak.sh/i/docker.svg" alt="Docker" height="40">&nbsp;
+  <img src="https://coolicon.falak.sh/i/kubernetes.svg" alt="Kubernetes" height="40">&nbsp;
+  <img src="https://coolicon.falak.sh/i/postgresql.svg" alt="PostgreSQL" height="40">&nbsp;
+  <img src="https://coolicon.falak.sh/i/nodejs.svg" alt="Node.js" height="40">&nbsp;
+  <img src="https://coolicon.falak.sh/i/aws.svg" alt="AWS" height="40">&nbsp;
+  <img src="https://coolicon.falak.sh/i/react.svg" alt="React" height="40">
+</p>
 
 About 7,600 icons and 16,000 variants, merged from [Simple Icons](https://simpleicons.org), [gilbarbara/logos](https://github.com/gilbarbara/logos),
 [Devicon](https://devicon.dev), [skill-icons](https://github.com/tandpfun/skill-icons), [vscode-icons](https://github.com/vscode-icons/vscode-icons),

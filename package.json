@@ -1,0 +1,18 @@
+{
+  "name": "cool-icons",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "@iconify-json/devicon": "^1.2.71",
+    "@iconify-json/devicon-plain": "^1.2.62",
+    "@iconify-json/logos": "^1.2.17",
+    "@iconify-json/skill-icons": "^1.2.4",
+    "@iconify-json/vscode-icons": "^1.2.91",
+    "@resvg/resvg-js": "^2.6.2",
+    "simple-icons": "latest",
+    "yaml": "^2.8.0"
+  }
+}

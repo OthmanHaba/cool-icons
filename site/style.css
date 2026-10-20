@@ -1,0 +1,60 @@
+:root {
+  --bg: #fafaf9; --fg: #1c1917; --muted: #78716c; --line: #e7e5e4; --card: #fff; --accent: #2563eb;
+  --tile-light: #fff; --tile-dark: #1c1917;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0c0a09; --fg: #f5f5f4; --muted: #a8a29e; --line: #292524; --card: #1c1917; --accent: #60a5fa; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 ui-sans-serif, system-ui, sans-serif; }
+a { color: var(--accent); }
+code { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+header { position: sticky; top: 0; z-index: 1; display: flex; gap: 16px; align-items: center; padding: 12px 16px;
+  background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.brand { font-weight: 800; font-size: 20px; color: var(--fg); text-decoration: none; letter-spacing: -.02em; }
+.brand span { color: var(--accent); }
+#q { flex: 1; max-width: 640px; padding: 10px 14px; font: inherit; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--card); color: var(--fg); }
+#q:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+#count { color: var(--muted); font-size: 13px; white-space: nowrap; }
+
+main { padding: 16px; max-width: 1400px; margin: 0 auto; min-height: 70vh; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(116px, 1fr)); gap: 10px; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px 10px; border: 1px solid var(--line);
+  border-radius: 12px; background: var(--card); color: var(--fg); text-decoration: none; min-width: 0; }
+.tile:hover, .tile:focus-visible { border-color: var(--accent); }
+.tile img { width: 48px; height: 48px; object-fit: contain; }
+.tile b { font-weight: 500; font-size: 13px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile small { color: var(--muted); font-size: 11px; }
+#more { height: 1px; }
+
+.detail h1 { margin: 8px 0 4px; font-size: 28px; letter-spacing: -.02em; }
+.detail .meta { color: var(--muted); margin: 0 0 16px; }
+.variants { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 24px; }
+.variant { padding: 0; border: 2px solid var(--line); border-radius: 12px; overflow: hidden; cursor: pointer; background: none; color: var(--fg); font: inherit; }
+.variant[aria-pressed="true"] { border-color: var(--accent); }
+.variant .pic { display: grid; place-items: center; height: 110px; background: var(--tile-light); }
+.variant.dark .pic { background: var(--tile-dark); }
+.variant img { max-width: 80%; max-height: 64px; }
+.variant span { display: block; padding: 6px 8px; font-size: 12px; text-align: left; border-top: 1px solid var(--line); }
+
+.snips { display: grid; gap: 10px; }
+.snip { display: grid; grid-template-columns: 110px 1fr auto; gap: 10px; align-items: center; }
+.snip label { color: var(--muted); font-size: 13px; }
+.snip input { width: 100%; padding: 8px 10px; font: 13px ui-monospace, Menlo, monospace; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--card); color: var(--fg); }
+button.copy, select, a.btn { padding: 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card);
+  color: var(--fg); font: inherit; font-size: 13px; cursor: pointer; text-decoration: none; }
+button.copy:hover, a.btn:hover { border-color: var(--accent); }
+.downloads { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; align-items: center; }
+.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+
+footer { padding: 24px 16px 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); max-width: 1400px; margin: 0 auto; }
+footer code { background: var(--card); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
+
+@media (max-width: 600px) {
+  header { flex-wrap: wrap; } #q { order: 3; flex-basis: 100%; }
+  .snip { grid-template-columns: 1fr auto; } .snip label { grid-column: 1 / -1; }
+}
